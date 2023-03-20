@@ -16,7 +16,7 @@ const App = () => {
 
   const [romanClicked, setRomanClicked] = useState(0);
 
-  const [inType, setInType] = useState('Decimal');
+  const [inType, setInType] = useState('Enter your number here');
   const [outType, setOutType] = useState('');
 
   const [base, setBase] = useState(10);
@@ -39,10 +39,7 @@ const App = () => {
       setOutType('Roman');
     } else {
       setRomanClicked(romanClicked + 1);
-      setOutput(
-        `Don't give big numbers to Romans, they cannot handle it. 
-        Just click again for the actual number though.`
-      );
+      setOutput(`Don't give big numbers to Romans`);
       setOutType('Roman');
     }
   };
@@ -54,9 +51,23 @@ const App = () => {
   };
   const customClickHandler = (e) => {
     e.preventDefault();
-    let temp = useConvertToCustomBase(input, base);
-    setOutput(temp);
-    setOutType(`Custom Base ${base}`);
+    if (base > 1) {
+      let temp = useConvertToCustomBase(input, base);
+      setOutput(temp);
+      setOutType(`Custom Base ${base}`);
+    } else if (base == 1) {
+      setOutput(`Basically, ${input} 1's in a row`);
+      setOutType(`Custom Base ${base}`);
+    } else if (base == 0) {
+      setOutput(`There is no base Zero`);
+      setOutType(`Custom Base ${base}, dummy`);
+    } else if (base < 0) {
+      setOutput(`There are negative bases, but c'mon`);
+      setOutType(`Seriously, did you just try negative base`);
+    } else {
+      setOutput(`Enter valid positive non-fractional base`);
+      setOutType(`Custom Base "${base}" doesnt exist`);
+    }
   };
 
   const inputChangeHandler = (e) => {
